@@ -1,4 +1,5 @@
-﻿using Paradigmi.Progetto.Models.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using Paradigmi.Progetto.Models.Context;
 using Paradigmi.Progetto.Models.Entities;
 using System;
 using System.Collections.Generic;
@@ -21,12 +22,21 @@ namespace Paradigmi.Progetto.Models.Repositories
             int result = query.Select(w => w.IdCategoria).FirstOrDefault();
             return result == 0 ? -1 : result;
         }
-        public Categoria GetCategoriaById(int id)
+        public async Task<bool> IscategoriaVuota(string name)
         {
-            var query = _ctx.Categorie.AsQueryable();
-            Categoria Categoria = (Categoria)_ctx.Categorie.Where(w => w.IdCategoria.Equals(id))
-                .Select(w => w);
-            return Categoria;
+            var categoria = await _ctx.Categorie
+                .Include(c => c.Libri)
+                .FirstOrDefaultAsync(c => c.Nome == name);
+            return categoria?.Libri.Count == 0;
+        }
+        public async Task<Categoria>? GetCategoriaAsyncById(int id)
+        {
+            var categoria = await _ctx.Categorie.FindAsync(id);
+            return categoria;
+        }
+        public void EliminaCategoria(Categoria categoria)
+        {
+            _ctx.Categorie.Remove(categoria);
         }
     }
 }

@@ -21,13 +21,20 @@ namespace Paradigmi.Progetto.Application.Services
         public async Task DeleteCategoriaAsync(Categoria categoria)
         {
             _categoriaRepository.Elimina(categoria);
+            _categoriaRepository.EliminaCategoria(categoria);
             await _categoriaRepository.SaveAsync();
         }
 
-        public Categoria GetCategoria(int id)
+        public async Task<Categoria> GetCategoriaAsync(string name)
         {
-            throw new NotImplementedException();
+            var index = _categoriaRepository.GetCategoriaByNome(name);
+            var categoria = await _categoriaRepository.GetCategoriaAsyncById(index);
+            return categoria;
         }
 
+        public Task<bool> IsCategoriaVuota(string name)
+        {
+            return _categoriaRepository.IscategoriaVuota(name);
+        }
     }
 }

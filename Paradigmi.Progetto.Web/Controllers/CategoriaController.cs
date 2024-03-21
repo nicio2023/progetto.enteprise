@@ -29,12 +29,21 @@ namespace Paradigmi.Progetto.Web.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteCategoria(DeleteCategoriaRequest request)
         {
-            var categoria=request.ToEntity();
-            await _categoriaService.DeleteCategoriaAsync(categoria);
-            var response = new DeleteCategoriaResponse();
-            response.Categoria = new Application.Dtos.CategoriaDto(categoria);
-            return Ok(ResponseFactory
-                .WithSuccess(response));
+            var categoria = await _categoriaService.GetCategoriaAsync(request.Nome);
+            var valid = await _categoriaService.IsCategoriaVuota(categoria.Nome);
+            if (valid)
+            {
+                await _categoriaService.DeleteCategoriaAsync(categoria);
+                var response = new DeleteCategoriaResponse();
+                response.Categoria = new Application.Dtos.CategoriaDto(categoria);
+                return Ok(ResponseFactory
+                    .WithSuccess(response));
+            }
+            else
+            {
+                return BadRequest(ResponseFactory.WithError(new Exception("la categoria ha associato dei libri, " +
+                "perciò non può essere eliminata")));
+              };
         }
     }
 }

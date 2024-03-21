@@ -4,8 +4,9 @@ namespace Paradigmi.Progetto.Application.Abstractions.Services
 {
     public interface ICategoriaService
     {
-        Categoria GetCategoria(int id);
+        Task<Categoria> GetCategoriaAsync(string name);
         Task AddCategoriaAsync(Categoria categoria);
         Task DeleteCategoriaAsync(Categoria categoria);
+        Task<bool> IsCategoriaVuota(string name);
     }
 }

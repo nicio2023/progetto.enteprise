@@ -22,16 +22,16 @@ namespace Paradigmi.Progetto.Models.Repositories
         {
             _ctx.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
         }
-        public async Task OttieniAsync(object id)
+        public async Task<T> OttieniAsync(T id)
         {
-            await _ctx.Set<T>()
+           var response= await _ctx.Set<T>()
                 .FindAsync(id);
+            return response;
 
         }
-        public void Elimina(object id)
+        public async Task Elimina(T id)
         {
-            var entity = OttieniAsync(id);
-            _ctx.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+            _ctx.Entry(id).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
         }
         public async Task SaveAsync()
         {
