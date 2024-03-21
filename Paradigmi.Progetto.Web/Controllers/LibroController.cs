@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Paradigmi.Progetto.Application.Abstractions.Services;
 using Paradigmi.Progetto.Application.Factories;
 using Paradigmi.Progetto.Application.Requests;
 using Paradigmi.Progetto.Application.Responses;
 using Paradigmi.Progetto.Application.Services;
+using Paradigmi.Progetto.Models.Context;
+using Paradigmi.Progetto.Models.Entities;
 
 namespace Paradigmi.Progetto.Web.Controllers
 {
@@ -13,14 +16,18 @@ namespace Paradigmi.Progetto.Web.Controllers
         public class LibroController : ControllerBase
         {
             private readonly ILibroService _libroService;
-            public LibroController (ILibroService libroService)
+            private readonly MyDbContext _ctx;
+            public LibroController (ILibroService libroService, MyDbContext ctx)
             {
                 _libroService = libroService;
+                _ctx = ctx;
             }
             [HttpPost]
             public async Task<IActionResult> CreateLibro(CreateLibroRequest request)
             {
-                var libro = request.ToEntity();
+                var categorie = await _ctx.Categorie.Where(c => request.Categorie.Contains(c.Nome)).ToListAsync();
+                List<CategoriaLibro> categoriaLibri = categorie.Select(c => new CategoriaLibro { Categoria = c }).ToList();
+                var libro = request.ToEntity(categoriaLibri);
                 await _libroService.AddLibroAsync(libro);
                 var response = new CreateLibroResponse();
                 response.Libro = new Application.Dtos.LibroDto(libro);

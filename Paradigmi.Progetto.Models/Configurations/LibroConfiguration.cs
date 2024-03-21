@@ -18,12 +18,6 @@ namespace Paradigmi.Progetto.Models.Configurations
             builder.Property(p => p.Autore).HasMaxLength(50);
             builder.Property(p => p.Editore).HasMaxLength(50);
             builder.Property(p => p.Nome).HasMaxLength(50);
-            /*builder.HasMany(l => l.Categorie)
-                .WithMany(c => c.Libri)
-                .UsingEntity<CategoriaLibro>(
-                j => j.HasOne(lc => lc.IdCategoria).WithMany(),
-                j => j.HasOne(lc => lc.IdLibro).WithMany())
-                .HasKey(lc => new { lc.IdCategoriaLibro });*/
 
         }
     }

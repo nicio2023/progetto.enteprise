@@ -11,7 +11,7 @@ namespace Paradigmi.Progetto.Models.Context
     public class MyDbContext : DbContext
     {
         public DbSet<Utente> Utenti { get; set; }
-        public DbSet<Libro> Libro { get; set; }
+        public DbSet<Libro> Libri { get; set; }
         public DbSet<Categoria> Categorie { get; set; }
         public MyDbContext(DbContextOptions<MyDbContext> config) : base(config)
         {
@@ -36,6 +36,19 @@ namespace Paradigmi.Progetto.Models.Context
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<CategoriaLibro>()
+                .HasKey(lc => new { lc.IdLibro, lc.IdCategoria });
+
+            modelBuilder.Entity<CategoriaLibro>()
+                .HasOne(lc => lc.Libro)
+                .WithMany(l => l.Categorie)
+                .HasForeignKey(lc => lc.IdLibro);
+
+            modelBuilder.Entity<CategoriaLibro>()
+                .HasOne(lc => lc.Categoria)
+                .WithMany(c => c.Libri)
+                .HasForeignKey(lc => lc.IdCategoria);
+
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
             base.OnModelCreating(modelBuilder);
         }

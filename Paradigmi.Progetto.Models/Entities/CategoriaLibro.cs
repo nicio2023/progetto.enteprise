@@ -8,8 +8,10 @@ namespace Paradigmi.Progetto.Models.Entities
 {
     public class CategoriaLibro
     {
-        public int IdCategoriaLibro { get; set; }
-        public Categoria? IdCategoria { get; set; }
-        public Libro? IdLibro { get; set; }
+        public int IdCategoria { get; set; }
+        public Categoria Categoria { get; set; }
+        public int IdLibro { get; set; }
+        public Libro Libro { get; set; }
+
     }
 }
