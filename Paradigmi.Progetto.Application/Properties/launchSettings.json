@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Paradigmi.Progetto.Application": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:23381;http://localhost:23382"
+    }
+  }
+}
