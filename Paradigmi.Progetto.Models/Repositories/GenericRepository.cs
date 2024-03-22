@@ -29,7 +29,7 @@ namespace Paradigmi.Progetto.Models.Repositories
             return response;
 
         }
-        public async Task Elimina(T id)
+        public void Elimina(T id)
         {
             _ctx.Entry(id).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
         }

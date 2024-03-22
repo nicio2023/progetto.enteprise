@@ -18,14 +18,7 @@ namespace Paradigmi.Progetto.Application.Validators
             RuleFor( x => x.Editore)
                 .Custom(ValidaLibro);
             RuleForEach(x => x.Categorie)
-               .NotNull()
-               .WithMessage("il campo nome non può essere nullo")
-               .NotEmpty()
-               .WithMessage("il campo nome non può essere vuoto")
-               .MinimumLength(3)
-               .WithMessage("il campo nome deve essere almeno lungo 3 caratteri")
-               .Must(x => _categoriaRepository.GetCategoriaByNome(x.ToLower()) != -1)
-               .WithMessage("categoria non esistente");
+               .Custom(ValidaCategorieLibro);
 
         }
         private void ValidaLibro(string value, ValidationContext<CreateLibroRequest> context)
@@ -37,6 +30,14 @@ namespace Paradigmi.Progetto.Application.Validators
             if(value.Length < 3)
             {
                 context.AddFailure("il campo " + value + " deve avere almeno 3 caratteri");
+            }
+        }
+        private void ValidaCategorieLibro(string value, ValidationContext<CreateLibroRequest> context)
+        {
+            if(_categoriaRepository.GetCategoriaByNome(value.ToLower()) == -1)
+            {
+                context.AddFailure("il campo " + value + " non esiste tra le categorie. Per accettare l'inserimento" +
+                    " tutte le categorie inserite devono essere presenti.");
             }
         }
     }

@@ -18,13 +18,13 @@ namespace Paradigmi.Progetto.Application.Requests
         public Libro ToEntity(List<CategoriaLibro> categorie)
         {
             MyDbContext _ctx = new MyDbContext();
-            var request = new Libro();
-            request.Nome = Nome;
-            request.Editore = Editore;
-            request.Autore = Autore;
-            request.DataPubblicazione = DataPubblicazione;
-            request.Categorie = categorie;
-            return request;
+            var libro = new Libro();
+            libro.Nome = Nome;
+            libro.Editore = Editore;
+            libro.Autore = Autore;
+            libro.DataPubblicazione = DataPubblicazione;
+            libro.Categorie = categorie;
+            return libro;
         }
         /*private ICollection<Categoria> GetCategorie(List<string>? categorie)
         { 

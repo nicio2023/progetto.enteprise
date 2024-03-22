@@ -10,9 +10,9 @@ namespace Paradigmi.Progetto.Models.Context
 {
     public class MyDbContext : DbContext
     {
-        public DbSet<Utente> Utenti { get; set; }
-        public DbSet<Libro> Libri { get; set; }
-        public DbSet<Categoria> Categorie { get; set; }
+        public DbSet<Utente>? Utenti { get; set; }
+        public DbSet<Libro>? Libri { get; set; }
+        public DbSet<Categoria>? Categorie { get; set; }
         public MyDbContext(DbContextOptions<MyDbContext> config) : base(config)
         {
 
@@ -28,7 +28,7 @@ namespace Paradigmi.Progetto.Models.Context
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder
-               //.UseLazyLoadingProxies()
+               .UseLazyLoadingProxies()
                .UseSqlServer("data source=DESKTOP-82M9ESU;Initial catalog=Paradigmi;User Id=utente;Password=password;TrustServerCertificate=True");
 
             }
