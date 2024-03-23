@@ -1,6 +1,6 @@
 ﻿using Paradigmi.Progetto.Models.Entities;
 
-namespace Paradigmi.Progetto.Application.Requests
+namespace Paradigmi.Progetto.Application.Models.Requests
 {
     public class DeleteCategoriaRequest
     {

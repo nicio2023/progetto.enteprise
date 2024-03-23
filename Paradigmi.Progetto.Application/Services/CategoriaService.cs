@@ -21,7 +21,6 @@ namespace Paradigmi.Progetto.Application.Services
         public async Task DeleteCategoriaAsync(Categoria categoria)
         {
             _categoriaRepository.Elimina(categoria);
-            _categoriaRepository.EliminaCategoria(categoria);
             await _categoriaRepository.SaveAsync();
         }
 

@@ -1,8 +1,8 @@
 ﻿using Paradigmi.Progetto.Application.Dtos;
 
-namespace Paradigmi.Progetto.Application.Requests
+namespace Paradigmi.Progetto.Application.Models.Responses
 {
-    public class GetLibroResponse
+    public class DeleteLibroResponse
     {
         public LibroDto Libro { get; set; }
     }

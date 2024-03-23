@@ -22,7 +22,15 @@ namespace Paradigmi.Progetto.Models.Repositories
         {
             _ctx.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
         }
-        public async Task<T> OttieniAsync(T id)
+        /*
+         * metodo non async per i validators visto che risultano problematici con gli async
+         */
+        public T Ottieni (int id)
+        {
+            var response = _ctx.Set<T>().Find(id);
+            return response;
+        }
+        public async Task<T> OttieniAsync(int id)
         {
            var response= await _ctx.Set<T>()
                 .FindAsync(id);
@@ -32,6 +40,8 @@ namespace Paradigmi.Progetto.Models.Repositories
         public void Elimina(T id)
         {
             _ctx.Entry(id).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+            _ctx.Set<T>()
+                .Remove(id);
         }
         public async Task SaveAsync()
         {

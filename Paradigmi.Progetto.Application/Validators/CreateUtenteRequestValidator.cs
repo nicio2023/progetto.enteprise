@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using Paradigmi.Progetto.Application.Extensions;
-using Paradigmi.Progetto.Application.Requests;
+using Paradigmi.Progetto.Application.Models.Requests;
 
 namespace Paradigmi.Progetto.Application.Validators
 {

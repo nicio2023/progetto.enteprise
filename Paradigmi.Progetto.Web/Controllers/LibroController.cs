@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Graph.Models;
 using Paradigmi.Progetto.Application.Abstractions.Services;
+using Paradigmi.Progetto.Application.Dtos;
 using Paradigmi.Progetto.Application.Factories;
-using Paradigmi.Progetto.Application.Requests;
+using Paradigmi.Progetto.Application.Models.Requests;
+using Paradigmi.Progetto.Application.Models.Responses;
 using Paradigmi.Progetto.Application.Responses;
 using Paradigmi.Progetto.Application.Services;
 using Paradigmi.Progetto.Models.Context;
@@ -34,12 +37,13 @@ namespace Paradigmi.Progetto.Web.Controllers
             return Ok(ResponseFactory
             .WithSuccess(response)
             );
+
         }
         [HttpPut]
         public async Task<IActionResult> ModifyLibro(ModifyLibroRequest request)
         {
             var libro = await _libroService.GetLibroAsync(request.Nome, request.Autore);
-            await _libroService.ModifyLibro(libro, request);
+            await _libroService.ModifyLibroAsync(libro, request);
             var response = new ModifyLibroResponse();
             response.Libro = new Application.Dtos.LibroDto(libro);
             return Ok(ResponseFactory
@@ -47,6 +51,7 @@ namespace Paradigmi.Progetto.Web.Controllers
                 );
 
         }
+
         /*[HttpGet]
         public async Task<IActionResult> GetLibroCategorie(string name, string autore)
         {
@@ -57,6 +62,35 @@ namespace Paradigmi.Progetto.Web.Controllers
                 .WithSuccess(response)
                 );
         }*/
+        [HttpDelete]
+        public async Task<IActionResult> DeleteLibro(DeleteLibroRequest request)
+        {
+            var libro = await _libroService.GetLibroAsync(request.Nome, request.Autore);
+            await _libroService.DeleteLibroAsync(libro);
+            var response = new DeleteLibroResponse();
+            response.Libro = new Application.Dtos.LibroDto(libro);
+            return Ok(ResponseFactory
+                .WithSuccess("libro <" + response.Libro.Nome + "> con autore <" + response.Libro.Autore + "> eliminato correttamente"));
+        }
+        [HttpPost]
+        [Route("list")]
+        public async Task<IActionResult> GetLibri(GetLibriRequest request)
+        {
+            int totalNum = 0;
+            var libri = _libroService.GetLibri(request.PageNumber * request.PageSize, request.PageSize, request.Nome, request.Autore, request.DataPubblicazione, out totalNum);
+            if (totalNum == 0)
+            {
+                return BadRequest(ResponseFactory.WithError(new Exception("non esiste nessun libro con tali caratteristiche")));
+            }
+            var response = new GetLibriResponse();
+            var pageFounded = (totalNum / (decimal)request.PageSize);
+            response.NumeroPagine = (int)Math.Ceiling(pageFounded);
+            response.Aziende = libri.Select(s =>
+            new LibroDto(s)).ToList();
 
+            return Ok(ResponseFactory
+              .WithSuccess(response)
+              );
+        }
     }        
-    }
+ }

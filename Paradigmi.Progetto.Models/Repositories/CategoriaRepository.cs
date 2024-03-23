@@ -34,9 +34,5 @@ namespace Paradigmi.Progetto.Models.Repositories
             var categoria = await _ctx.Categorie.FindAsync(id);
             return categoria;
         }
-        public void EliminaCategoria(Categoria categoria)
-        {
-            _ctx.Categorie.Remove(categoria);
-        }
     }
 }

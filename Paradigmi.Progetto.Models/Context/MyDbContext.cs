@@ -25,10 +25,10 @@ namespace Paradigmi.Progetto.Models.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
+            optionsBuilder.UseLazyLoadingProxies();            
+            if(!optionsBuilder.IsConfigured)
             {
                 optionsBuilder
-               .UseLazyLoadingProxies()
                .UseSqlServer("data source=DESKTOP-82M9ESU;Initial catalog=Paradigmi;User Id=utente;Password=password;TrustServerCertificate=True");
 
             }

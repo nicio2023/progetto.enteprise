@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Paradigmi.Progetto.Application.Responses
+namespace Paradigmi.Progetto.Application.Models.Responses
 {
     public class BaseResponse<T>
     {

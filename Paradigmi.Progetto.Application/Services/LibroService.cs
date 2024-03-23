@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Paradigmi.Progetto.Application.Abstractions.Services;
-using Paradigmi.Progetto.Application.Requests;
+using Paradigmi.Progetto.Application.Models.Requests;
 using Paradigmi.Progetto.Models.Context;
 using Paradigmi.Progetto.Models.Entities;
 using Paradigmi.Progetto.Models.Repositories;
@@ -21,14 +21,26 @@ namespace Paradigmi.Progetto.Application.Services
             await _libroRepository.AggiungiAsync(libro);
             await _libroRepository.SaveAsync();
         }
-       public async Task<Libro> GetLibroAsync(string nome, string autore)
+
+        public async Task DeleteLibroAsync(Libro libro)
         {
-            var index = _libroRepository.GetLibroByNomeEAutore(nome, autore);
-            var libro = await _libroRepository.GetLibroAsyncById(index);
+            _libroRepository.Elimina(libro);
+            await _libroRepository.SaveAsync();
+        }
+
+        public List<Libro> GetLibri(int from, int num, string nome, string autore, DateTime? data, out int totalNum)
+        {
+            return _libroRepository.GetLibri(from, num, nome, autore, data, out totalNum);
+        }
+
+        public async Task<Libro> GetLibroAsync(string nome, string autore)
+        {
+            var index =await _libroRepository.GetLibroByNomeEAutoreAsync(nome, autore);
+            var libro = await _libroRepository.OttieniAsync(index);
             return libro;
         }
 
-        public async Task<Libro> ModifyLibro(Libro libro, ModifyLibroRequest request)
+        public async Task<Libro> ModifyLibroAsync(Libro libro, ModifyLibroRequest request)
         {
             libro.Autore = request.AutoreModificato;
             libro.Editore = request.EditoreModificato;
@@ -36,8 +48,10 @@ namespace Paradigmi.Progetto.Application.Services
             var categorie = await _ctx.Categorie.Where(c => request.CategorieModificate.Contains(c.Nome)).ToListAsync();
             List<CategoriaLibro> categoriaLibri = categorie.Select(c => new CategoriaLibro { Categoria = c }).ToList();
             libro.Categorie= categoriaLibri;
-            await _libroRepository.ModifyLibro(libro);
+            await _libroRepository.ModifyLibroAsync(libro);
             return libro;
         }
+     
     }
 }
+

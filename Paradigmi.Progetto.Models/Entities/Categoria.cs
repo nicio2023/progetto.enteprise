@@ -10,7 +10,7 @@ namespace Paradigmi.Progetto.Models.Entities
     {
         public int IdCategoria { get; set; }
         public string  Nome { get; set; } = string.Empty;
-        public ICollection<CategoriaLibro> Libri { get; set; }
+        public virtual ICollection<CategoriaLibro> Libri { get; set; }
 
     }
 }

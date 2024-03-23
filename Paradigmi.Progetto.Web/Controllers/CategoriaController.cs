@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Paradigmi.Progetto.Application.Abstractions.Services;
 using Paradigmi.Progetto.Application.Factories;
-using Paradigmi.Progetto.Application.Requests;
+using Paradigmi.Progetto.Application.Models.Requests;
 using Paradigmi.Progetto.Application.Responses;
 
 namespace Paradigmi.Progetto.Web.Controllers
@@ -37,7 +37,7 @@ namespace Paradigmi.Progetto.Web.Controllers
                 var response = new DeleteCategoriaResponse();
                 response.Categoria = new Application.Dtos.CategoriaDto(categoria);
                 return Ok(ResponseFactory
-                    .WithSuccess(response));
+                    .WithSuccess("la categoria <"+response.Categoria.Nome+"> è stata eliminata con successo."));
             }
             else
             {

@@ -1,8 +1,9 @@
 ﻿using FluentValidation;
 using Microsoft.Graph.Drives.Item.Items.Item.Workbook.Functions.Nominal;
-using Paradigmi.Progetto.Application.Requests;
+using Paradigmi.Progetto.Application.Models.Requests;
 using Paradigmi.Progetto.Models.Entities;
 using Paradigmi.Progetto.Models.Repositories;
+using System.Collections;
 
 namespace Paradigmi.Progetto.Application.Validators
 {
@@ -57,9 +58,11 @@ namespace Paradigmi.Progetto.Application.Validators
         private void VerificaModificaLibro(ModifyLibroRequest request, ValidationContext<ModifyLibroRequest> context)
         {
             var index = _libroRepository.GetLibroByNomeEAutore(request.Nome, request.Autore);
-            var libro = _libroRepository.GetLibroById(index);
+            var libro = _libroRepository.Ottieni(index);
+            ICollection<CategoriaLibro> CategorieLibro = libro.Categorie;
             List<string> Nomi = new List<string>();
-            foreach(CategoriaLibro c in libro.Categorie)
+
+            foreach(CategoriaLibro c in CategorieLibro)
             {
                 Nomi.Add(c.Categoria.Nome);
             }

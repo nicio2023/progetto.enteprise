@@ -4,7 +4,7 @@ using Paradigmi.Progetto.Models.Entities;
 using Paradigmi.Progetto.Models.Repositories;
 using System.Linq;
 
-namespace Paradigmi.Progetto.Application.Requests
+namespace Paradigmi.Progetto.Application.Models.Requests
 {
     public class CreateLibroRequest
     {
@@ -40,6 +40,6 @@ namespace Paradigmi.Progetto.Application.Requests
             }
             return Categorie;
         }*/
-        
+
     }
 }

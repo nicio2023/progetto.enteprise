@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Paradigmi.Progetto.Application.Models.Responses;
 using Paradigmi.Progetto.Application.Responses;
 
 namespace Paradigmi.Progetto.Web.Results
