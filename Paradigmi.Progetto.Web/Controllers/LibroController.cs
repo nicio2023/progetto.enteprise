@@ -77,7 +77,7 @@ namespace Paradigmi.Progetto.Web.Controllers
         public async Task<IActionResult> GetLibri(GetLibriRequest request)
         {
             int totalNum = 0;
-            var libri = _libroService.GetLibri(request.PageNumber * request.PageSize, request.PageSize, request.Nome, request.Autore, request.DataPubblicazione, out totalNum);
+            var libri = _libroService.GetLibri(request.PageNumber * request.PageSize, request.PageSize, request.Nome, request.Autore, request.DataPubblicazione,request.Categoria, out totalNum);
             if (totalNum == 0)
             {
                 return BadRequest(ResponseFactory.WithError(new Exception("non esiste nessun libro con tali caratteristiche")));

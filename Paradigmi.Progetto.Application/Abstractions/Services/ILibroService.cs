@@ -9,6 +9,6 @@ namespace Paradigmi.Progetto.Application.Abstractions.Services
         Task<Libro> GetLibroAsync(string nome, string autore);
         Task<Libro> ModifyLibroAsync(Libro libro, ModifyLibroRequest request);
         Task DeleteLibroAsync(Libro libro);
-        List<Libro> GetLibri(int from, int num, string nome, string autore, DateTime? data, out int totalNum);
+        List<Libro> GetLibri(int from, int num, string nome, string? autore, DateTime? data, string? Categoria, out int totalNum);
     }
 }

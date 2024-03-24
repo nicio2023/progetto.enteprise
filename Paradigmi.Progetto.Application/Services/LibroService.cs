@@ -28,9 +28,9 @@ namespace Paradigmi.Progetto.Application.Services
             await _libroRepository.SaveAsync();
         }
 
-        public List<Libro> GetLibri(int from, int num, string nome, string autore, DateTime? data, out int totalNum)
+        public List<Libro> GetLibri(int from, int num, string nome, string? autore, DateTime? data,string? Categoria, out int totalNum)
         {
-            return _libroRepository.GetLibri(from, num, nome, autore, data, out totalNum);
+            return _libroRepository.GetLibri(from, num, nome, autore, data, Categoria, out totalNum);
         }
 
         public async Task<Libro> GetLibroAsync(string nome, string autore)

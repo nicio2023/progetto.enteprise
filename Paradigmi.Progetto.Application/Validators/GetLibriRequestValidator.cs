@@ -16,8 +16,8 @@ namespace Paradigmi.Progetto.Application.Validators
                 .Must(x => x > 0)
                 .WithMessage("inserire almeno un risultato per pagina");
             RuleFor(x => x.DataPubblicazione)
-                .Must(x => x <= DateTime.Now)
-                .WithMessage("La data di inserimento non può essere oltre quella attuale");
+                .Must(x => x <= DateTime.Now || x==null)
+                .WithMessage("La data di inserimento non può essere oltre quella attuale o deve essere nulla");
         }
 
         private void ValidaLibro(string value, ValidationContext<GetLibriRequest> context)

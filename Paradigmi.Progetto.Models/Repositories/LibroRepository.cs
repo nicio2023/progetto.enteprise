@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Paradigmi.Progetto.Models.Context;
 using Paradigmi.Progetto.Models.Entities;
 using System;
@@ -43,26 +44,36 @@ namespace Paradigmi.Progetto.Models.Repositories
             int result = await query.Select(w => w.IdLibro).FirstOrDefaultAsync();
             return result == 0 ? -1 : result;
         }
-        public List<Libro> GetLibri (int from, int num, string nome, string autore, DateTime? data, out int totalNum)
+        public List<Libro> GetLibri (int from, int num, string nome, string? autore, DateTime? data, string? Categoria, out int totalNum)
         {
             var query = _ctx.Libri.AsQueryable();
-            if(!string.IsNullOrEmpty(autore) || data != null)
+            int index=0;
+            if (!string.IsNullOrEmpty(Categoria))
             {
-                if(!string.IsNullOrEmpty(autore) && data != null)
+                index = GetIndexCategoria(Categoria);
+            }
+            if(!string.IsNullOrEmpty(autore) || data != null || !string.IsNullOrEmpty(Categoria))
+            {
+                if(!string.IsNullOrEmpty(autore) && data != null && !string.IsNullOrEmpty(Categoria))
                 {
-                    query = query.Where(w => w.Nome.ToLower().Contains(nome.ToLower()) && w.Autore.ToLower()
-                    .Contains(autore.ToLower()) && w.DataPubblicazione >= data);
+                    query = GetLibriAutoreDataCategoria(nome, autore, data, index, query);
                 }
-                if (!string.IsNullOrEmpty(autore))
+                if (!string.IsNullOrEmpty(autore) && data!=null)
                 {
-                    query = query.Where(w => w.Nome.ToLower().Contains(nome.ToLower()) && w.Autore.ToLower()
-                    .Contains(autore.ToLower()));
+                    query = GetLibriAutoreData(nome, autore, data, query);
                 }
-                else
+                if(!string.IsNullOrEmpty(autore) && !string.IsNullOrEmpty(Categoria))
                 {
-                    query = query.Where(w => w.Nome.ToLower().Contains(nome.ToLower()) && w.DataPubblicazione
-                    >= data);
+                    query = GetLibriAutoreCategoria(nome, autore, index, query);
                 }
+                else if (data !=null && !string.IsNullOrEmpty(Categoria)) 
+                {
+                    query = GetLibriDataCategoria(nome, data, index, query);
+                }
+            }
+            else
+            {
+                query = query.Where(w => w.Nome.ToLower().Contains(nome.ToLower()));
             }
             totalNum = query.Count();
             return
@@ -71,6 +82,46 @@ namespace Paradigmi.Progetto.Models.Repositories
                 .Skip(from)
                 .Take(num)
                 .ToList();
+        }
+        private int GetIndexCategoria(string Categoria)
+        {
+            int categoria = _ctx.Categorie
+                .Where(c => c.Nome == Categoria)
+                .Select(c => c.IdCategoria)
+                .FirstOrDefault();
+            //List<Libro> libri = new List<Libro>();
+            /*if (categoria != 0)
+            {
+                    libri = _ctx.Libri
+                    .Where(l => l.Categorie.Any(c => c.IdCategoria == categoria))
+                    .ToList();
+            }*/
+            return categoria; 
+        } 
+        private IQueryable<Libro>? GetLibriAutoreDataCategoria(string nome,string autore, DateTime? data, int index, IQueryable<Libro>? query) {
+        
+           query = query.Where(w => w.Nome.ToLower().Contains(nome.ToLower()) && w.Autore.ToLower()
+                    .Contains(autore.ToLower()) && w.DataPubblicazione >= data && w.Categorie.Any(c => c.IdCategoria == index));
+            return query;
+
+        }
+        private IQueryable<Libro>? GetLibriAutoreData(string nome, string autore, DateTime? data, IQueryable<Libro>? query)
+        {
+            query = query.Where(w => w.Nome.ToLower().Contains(nome.ToLower()) && w.Autore.ToLower()
+                    .Contains(autore.ToLower()) && w.DataPubblicazione >= data);
+            return query;
+        }
+        private IQueryable<Libro>? GetLibriAutoreCategoria(string nome, string autore, int index, IQueryable<Libro>? query)
+        {
+            query = query.Where(w => w.Nome.ToLower().Contains(nome.ToLower()) && w.Autore.ToLower()
+                    .Contains(autore.ToLower()) && w.Categorie.Any(c => c.IdCategoria == index));
+            return query;
+        }
+        private IQueryable<Libro>? GetLibriDataCategoria(string nome, DateTime? data, int index, IQueryable<Libro>? query)
+        {
+            query = query.Where(w => w.Nome.ToLower().Contains(nome.ToLower()) &&
+                        w.Categorie.Any(c => c.IdCategoria == index) && w.DataPubblicazione >= data);
+            return query;
         }
     }
 }
