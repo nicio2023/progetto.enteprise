@@ -1,13 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Paradigmi.Progetto.Application.Abstractions.Services;
 using Paradigmi.Progetto.Application.Factories;
 using Paradigmi.Progetto.Application.Models.Requests;
+using Paradigmi.Progetto.Application.RemoveSpaces;
 using Paradigmi.Progetto.Application.Responses;
 
 namespace Paradigmi.Progetto.Web.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CategoriaController : ControllerBase
     {
         private readonly ICategoriaService _categoriaService;
@@ -16,6 +20,7 @@ namespace Paradigmi.Progetto.Web.Controllers
             _categoriaService=categoriaService;
         }
         [HttpPost]
+        [Route("create")]
         public async Task<IActionResult> CreateCategoria(CreateCategoriaRequest request)
         {
             var categoria = request.ToEntity();
@@ -27,10 +32,11 @@ namespace Paradigmi.Progetto.Web.Controllers
                 );
         }
         [HttpDelete]
+        [Route("delete")]
         public async Task<IActionResult> DeleteCategoria(DeleteCategoriaRequest request)
         {
-            var categoria = await _categoriaService.GetCategoriaAsync(request.Nome);
-            var valid = await _categoriaService.IsCategoriaVuota(categoria.Nome);
+            var categoria = await _categoriaService.GetCategoriaByNomeAsync(Spaces.RemoveExtraSpaces(request.Nome));
+            var valid = await _categoriaService.IsCategoriaVuotaAsync(categoria.Nome);
             if (valid)
             {
                 await _categoriaService.DeleteCategoriaAsync(categoria);

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Paradigmi.Progetto.Application.Abstractions.Services;
+using Paradigmi.Progetto.Models.Abstractions;
 using Paradigmi.Progetto.Models.Entities;
 using Paradigmi.Progetto.Models.Repositories;
 
@@ -7,8 +8,8 @@ namespace Paradigmi.Progetto.Application.Services
 {
     public class CategoriaService : ICategoriaService
     {
-        private readonly CategoriaRepository _categoriaRepository;
-        public CategoriaService(CategoriaRepository categoriaRepository)
+        private readonly ICategoriaRepository _categoriaRepository;
+        public CategoriaService(ICategoriaRepository categoriaRepository)
         {
             _categoriaRepository = categoriaRepository;
         }
@@ -24,16 +25,20 @@ namespace Paradigmi.Progetto.Application.Services
             await _categoriaRepository.SaveAsync();
         }
 
-        public async Task<Categoria> GetCategoriaAsync(string name)
+        public async Task<Categoria> GetCategoriaByNomeAsync(string name)
         {
-            var index = _categoriaRepository.GetCategoriaByNome(name);
-            var categoria = await _categoriaRepository.GetCategoriaAsyncById(index);
+            var categoria = await _categoriaRepository.GetCategoriaByNomeAsync(name);
             return categoria;
         }
 
-        public Task<bool> IsCategoriaVuota(string name)
+        public Task<List<Categoria>> GetCategorieByNomiAsync(List<string> nomi)
         {
-            return _categoriaRepository.IscategoriaVuota(name);
+            return _categoriaRepository.GetCategorieByNomiAsync(nomi);
+        }
+
+        public Task<bool> IsCategoriaVuotaAsync(string name)
+        {
+            return _categoriaRepository.IscategoriaVuotaAsync(name);
         }
     }
 }

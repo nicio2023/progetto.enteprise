@@ -5,7 +5,7 @@ namespace Paradigmi.Progetto.Application.Dtos
     public class CategoriaDto
     {
         public int IdCategoria { get; set; }
-        public string Nome { get; set; }
+        public string Nome { get; set; } = string.Empty;
         public CategoriaDto()
         {
 

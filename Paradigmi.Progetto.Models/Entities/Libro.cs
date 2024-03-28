@@ -12,7 +12,7 @@ namespace Paradigmi.Progetto.Models.Entities
         public string Nome { get; set; } = string.Empty;
         public string Autore { get; set; } = string.Empty;
         public string Editore { get;set; } = string.Empty;
-        public DateTime DataPubblicazione { get; set; }
-        public virtual ICollection<CategoriaLibro> Categorie { get; set; }
+        public DateTime? DataPubblicazione { get; set; }
+        public virtual ICollection<CategoriaLibro>? Categorie { get; set; }
     }
 }

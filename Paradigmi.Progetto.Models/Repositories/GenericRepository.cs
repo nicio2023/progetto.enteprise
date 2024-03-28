@@ -1,4 +1,5 @@
-﻿using Paradigmi.Progetto.Models.Context;
+﻿using Paradigmi.Progetto.Models.Abstractions;
+using Paradigmi.Progetto.Models.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Paradigmi.Progetto.Models.Repositories
 {
-    public abstract class GenericRepository<T> where T : class
+    public abstract class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         protected MyDbContext _ctx;
         public GenericRepository(MyDbContext ctx) {
@@ -25,7 +26,7 @@ namespace Paradigmi.Progetto.Models.Repositories
         /*
          * metodo non async per i validators visto che risultano problematici con gli async
          */
-        public T Ottieni (int id)
+        public T? Ottieni (int? id)
         {
             var response = _ctx.Set<T>().Find(id);
             return response;
@@ -40,8 +41,8 @@ namespace Paradigmi.Progetto.Models.Repositories
         public void Elimina(T id)
         {
             _ctx.Entry(id).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
-            _ctx.Set<T>()
-                .Remove(id);
+            /*_ctx.Set<T>()
+                .Remove(id);*/
         }
         public async Task SaveAsync()
         {

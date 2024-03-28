@@ -2,7 +2,7 @@
 {
     public class DeleteLibroRequest
     {
-        public string Nome { get; set; }
-        public string Autore { get; set; }
+        public string? Nome { get; set; } = string.Empty;
+        public string? Autore { get; set; } = string.Empty; 
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Paradigmi.Progetto.Models.Abstractions;
 using Paradigmi.Progetto.Models.Context;
 using Paradigmi.Progetto.Models.Repositories;
 using System;
@@ -21,8 +22,9 @@ namespace Paradigmi.Progetto.Models.Extensions
                 conf.UseSqlServer(configuration.GetConnectionString("MyDbContext"));
             });
 
-            services.AddScoped<CategoriaRepository>();
-            services.AddScoped<LibroRepository>();
+            services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+            services.AddScoped<ILibroRepository, LibroRepository>();
+            services.AddScoped<IUtenteRepository, UtenteRepository>();
             return services;
         }
     }

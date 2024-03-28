@@ -16,6 +16,7 @@ namespace Paradigmi.Progetto.Application.Extensions
             services.AddScoped<ICategoriaService, CategoriaService>();
             services.AddScoped<ILibroService, LibroService>();
             services.AddScoped<IUtenteService, UtenteService>();
+            services.AddScoped<ITokenService, TokenService>();
             return services;
         }
     }

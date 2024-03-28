@@ -13,8 +13,8 @@ builder.Services.AddSwaggerGen();*/
 
 builder.Services
     .AddWebServices(builder.Configuration)
-    .AddModelServices(builder.Configuration)
-    .AddApplicationServices(builder.Configuration);
+    .AddApplicationServices(builder.Configuration)
+    .AddModelServices(builder.Configuration);
 
 var app = builder.Build();
 

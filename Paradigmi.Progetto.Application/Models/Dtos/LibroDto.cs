@@ -5,9 +5,10 @@ namespace Paradigmi.Progetto.Application.Dtos
     public class LibroDto
     {
         public int IdLibro { get;set; }
-        public string Nome { get;set;}
-        public string Autore { get;set;}
-        public string Editore { get;set;}   
+        public string Nome { get; set; } = string.Empty;
+        public string Autore { get; set; } = string.Empty;
+        public string Editore { get; set; } = string.Empty;
+        public DateTime? DataPubblicazione { get; set; }
         public ICollection<string> Categorie { get; set; }
         public LibroDto(Libro libro)
         {
@@ -15,16 +16,20 @@ namespace Paradigmi.Progetto.Application.Dtos
             Nome = libro.Nome;
             Autore = libro.Autore;
             Editore = libro.Editore;
+            DataPubblicazione = libro.DataPubblicazione;
             Categorie = GetNomeCategorie(libro.Categorie);
         }
 
-        private ICollection<string> GetNomeCategorie(ICollection<CategoriaLibro> categorie)
+        private ICollection<string> GetNomeCategorie(ICollection<CategoriaLibro>? categorie)
         {
-            List<string>? nomi = new List<string>();
+            /*List<string>? nomi = new List<string>();
             foreach(CategoriaLibro c in categorie)
             {
-                nomi.Add(c.Categoria.Nome);
+                string nome = c.Categoria.Nome;
+                nomi.Add(nome);
             }
+            return nomi;*/
+            List<string> nomi = categorie.Select(x => x.Categoria.Nome).ToList();
             return nomi;
         }
     }

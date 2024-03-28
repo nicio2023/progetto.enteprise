@@ -37,17 +37,19 @@ namespace Paradigmi.Progetto.Models.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CategoriaLibro>()
-                .HasKey(lc => new { lc.IdLibro, lc.IdCategoria });
+                .HasKey(lc => lc.IdCategoriaLibro);
 
             modelBuilder.Entity<CategoriaLibro>()
                 .HasOne(lc => lc.Libro)
                 .WithMany(l => l.Categorie)
-                .HasForeignKey(lc => lc.IdLibro);
+                .HasForeignKey(lc => lc.IdLibro)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<CategoriaLibro>()
                 .HasOne(lc => lc.Categoria)
                 .WithMany(c => c.Libri)
-                .HasForeignKey(lc => lc.IdCategoria);
+                .HasForeignKey(lc => lc.IdCategoria)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
             base.OnModelCreating(modelBuilder);
