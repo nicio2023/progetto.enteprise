@@ -12,8 +12,8 @@ namespace Paradigmi.Progetto.Application.Models.Requests
         public Utente ToEntity()
         {
             var request = new Utente();
-            request.Nome = Spaces.RemoveExtraSpaces(Nome);
-            request.Cognome = Spaces.RemoveExtraSpaces(Cognome);
+            request.Nome = Nome;
+            request.Cognome = Cognome;
             request.Email = Email;
             request.Password = Password;
             return request;

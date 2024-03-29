@@ -1,4 +1,5 @@
-﻿using Paradigmi.Progetto.Models.Entities;
+﻿using Paradigmi.Progetto.Application.RemoveSpaces;
+using Paradigmi.Progetto.Models.Entities;
 
 namespace Paradigmi.Progetto.Application.Dtos
 {

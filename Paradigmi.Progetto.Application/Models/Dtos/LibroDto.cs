@@ -1,4 +1,5 @@
-﻿using Paradigmi.Progetto.Models.Entities;
+﻿using Paradigmi.Progetto.Application.RemoveSpaces;
+using Paradigmi.Progetto.Models.Entities;
 
 namespace Paradigmi.Progetto.Application.Dtos
 {
@@ -22,14 +23,7 @@ namespace Paradigmi.Progetto.Application.Dtos
 
         private ICollection<string> GetNomeCategorie(ICollection<CategoriaLibro>? categorie)
         {
-            /*List<string>? nomi = new List<string>();
-            foreach(CategoriaLibro c in categorie)
-            {
-                string nome = c.Categoria.Nome;
-                nomi.Add(nome);
-            }
-            return nomi;*/
-            List<string> nomi = categorie.Select(x => x.Categoria.Nome).ToList();
+            List<string> nomi = categorie.Select(x => (x.Categoria.Nome)).ToList();
             return nomi;
         }
     }

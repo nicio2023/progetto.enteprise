@@ -8,7 +8,7 @@ namespace Paradigmi.Progetto.Application.RemoveSpaces
         {
             if (input != null)
             {
-                return Regex.Replace(input, @"\s+", " ");
+                return Regex.Replace(input.Trim(), @"\s{2,}", " " );
             }
             else
             {

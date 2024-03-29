@@ -19,9 +19,9 @@ namespace Paradigmi.Progetto.Application.Models.Requests
         public Libro ToEntity(List<CategoriaLibro> categorie)
         {
             var libro = new Libro();
-            libro.Nome = Spaces.RemoveExtraSpaces(Nome);
-            libro.Editore = Spaces.RemoveExtraSpaces(Editore);
-            libro.Autore = Spaces.RemoveExtraSpaces(Autore);
+            libro.Nome = Nome;
+            libro.Editore = Editore;
+            libro.Autore = Autore;
             libro.DataPubblicazione = DataPubblicazione;
             libro.Categorie = categorie;
             return libro;

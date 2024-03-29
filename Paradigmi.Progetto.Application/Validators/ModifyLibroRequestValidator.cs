@@ -40,11 +40,14 @@ namespace Paradigmi.Progetto.Application.Validators
 
             RuleFor(x => x.EditoreModificato)
                 .Custom(ValidaModificaLibro);
-            
+
             RuleFor(x => x)
               .Must(entity => _libroRepository.GetIndiceLibroByNomeEAutore(Spaces.RemoveExtraSpaces(entity.Nome?.ToLower()), Spaces.RemoveExtraSpaces(entity.Autore?.ToLower())) != -1)
               .WithMessage("libro non esistente");
 
+            RuleFor(x => x)
+               .Custom(VerificaModificaLibro);
+              
             RuleFor(x => x.DataPubblicazioneModificata)
                 .NotNull()
                 .WithMessage("il campo data di pubblicazione non può essere nullo")

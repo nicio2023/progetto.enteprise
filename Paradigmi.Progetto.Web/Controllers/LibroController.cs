@@ -33,6 +33,9 @@ namespace Paradigmi.Progetto.Web.Controllers
         [Route("create")]
         public async Task<IActionResult> CreateLibro(CreateLibroRequest request)
         {
+            request.Nome = Spaces.RemoveExtraSpaces(request.Nome);
+            request.Autore = Spaces.RemoveExtraSpaces(request.Autore);
+            request.Editore = Spaces.RemoveExtraSpaces(request.Editore);
             request.Categorie = request.Categorie.Select(x => Spaces.RemoveExtraSpaces(x)).ToList();
             var categorie = await _categoriaService.GetCategorieByNomiAsync(request.Categorie);
             List<CategoriaLibro> categoriaLibri = categorie.Select(c => new CategoriaLibro { Categoria = c }).ToList();
@@ -91,7 +94,7 @@ namespace Paradigmi.Progetto.Web.Controllers
         public async Task<IActionResult> GetLibri(GetLibriRequest request)
         {
             var nome = Spaces.RemoveExtraSpaces(request.Nome);
-            var autore = Spaces.RemoveExtraSpaces(request.Nome);
+            var autore = Spaces.RemoveExtraSpaces(request.Autore);
             var categoria = Spaces.RemoveExtraSpaces(request.Categoria);
             int totalNum = 0;
             var libri = _libroService.GetLibri(request.PageNumber * request.PageSize, request.PageSize, nome, autore, request.DataPubblicazione, categoria, out totalNum);

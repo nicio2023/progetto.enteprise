@@ -23,6 +23,7 @@ namespace Paradigmi.Progetto.Web.Controllers
         [Route("create")]
         public async Task<IActionResult> CreateCategoria(CreateCategoriaRequest request)
         {
+            request.Nome = Spaces.RemoveExtraSpaces(request.Nome);
             var categoria = request.ToEntity();
             await _categoriaService.AddCategoriaAsync(categoria);
             var response = new CreateCategoriaResponse();

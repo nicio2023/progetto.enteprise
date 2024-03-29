@@ -13,7 +13,7 @@ namespace Paradigmi.Progetto.Application.Validators
                 .NotNull()
                 .WithMessage("il campo nome non può essere nulllo")
                 .MinimumLength(1)
-                .WithMessage("il campo libro deve avere almeno un carattere");
+                .WithMessage("il campo nome deve avere almeno un carattere");
 
             RuleFor(x => x.PageSize)
                 .Must(x => x > 0)

@@ -3,6 +3,7 @@ using Paradigmi.Progetto.Application.Abstractions.Services;
 using Paradigmi.Progetto.Application.Factories;
 using Paradigmi.Progetto.Application.Models.Requests;
 using Paradigmi.Progetto.Application.Models.Responses;
+using Paradigmi.Progetto.Application.RemoveSpaces;
 using Paradigmi.Progetto.Application.Services;
 using Paradigmi.Progetto.Models.Repositories;
 
@@ -21,6 +22,8 @@ namespace Paradigmi.Progetto.Web.Controllers
         [Route("create")]
         public async Task<IActionResult> CreateUtente (CreateUtenteRequest request)
         {
+            request.Nome = Spaces.RemoveExtraSpaces(request.Nome);
+            request.Cognome = Spaces.RemoveExtraSpaces(request.Cognome);
             var utente = request.ToEntity();
             await _utenteService.AddUtenteAsync(utente);
             var response = new CreateUtenteResponse();
