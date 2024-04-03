@@ -32,6 +32,7 @@ namespace Paradigmi.Progetto.Application.Validators
                  .MinimumLength(1)
                  .WithMessage("il campo libro modificato deve avere almeno un carattere");
 
+            
             RuleFor(x => x.Autore)
                 .Custom(ValidaModificaLibro);
             
@@ -89,16 +90,11 @@ namespace Paradigmi.Progetto.Application.Validators
             string autore = Spaces.RemoveExtraSpaces(request.Autore);
             var index = _libroRepository.GetIndiceLibroByNomeEAutore(nome?.ToLower(), autore?.ToLower());
             var libro = _libroRepository.Ottieni(index);
-            ICollection<CategoriaLibro>? CategorieLibro = new List<CategoriaLibro>();
+           
             if (libro != null)
             {
                 var Nomi = new HashSet<string>(libro.Categorie.Select(x => x.Categoria.Nome.ToLower()));
 
-                /*foreach (CategoriaLibro c in CategorieLibro)
-                {
-                    string name = c.Categoria.Nome;
-                    Nomi.Add(name);
-                }*/
 
                 HashSet<string>? NomiModificati = new HashSet<string>();
                 if (request.CategorieModificate != null)

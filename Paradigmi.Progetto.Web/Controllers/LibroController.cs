@@ -60,7 +60,9 @@ namespace Paradigmi.Progetto.Web.Controllers
             request.CategorieModificate = request.CategorieModificate.Select(x => Spaces.RemoveExtraSpaces(x)).ToList();
             var libro = await _libroService.GetLibroAsync(request.Nome, request.Autore);
             var total = await _libroService.GetNumeroLibri(request.NomeModificato?.ToLower(), request.AutoreModificato?.ToLower());
-            if (total <=1)
+            var uguali = request.Nome.ToLower().Equals(request.NomeModificato.ToLower()) && request.Autore.ToLower().Equals(request.AutoreModificato.ToLower());
+
+            if ((total == 1 && uguali) || (total == 0))
             {
                 await _libroService.ModifyLibroAsync(libro, request);
                 var response = new ModifyLibroResponse();
@@ -69,6 +71,7 @@ namespace Paradigmi.Progetto.Web.Controllers
                     .WithSuccess(response)
                     );
             }
+
             else
             {
                 return BadRequest(ResponseFactory.WithError(new Exception("libro con nome <" + Spaces.RemoveExtraSpaces(request.NomeModificato) + "> " +
