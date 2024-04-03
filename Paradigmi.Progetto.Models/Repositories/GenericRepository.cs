@@ -17,7 +17,6 @@ namespace Paradigmi.Progetto.Models.Repositories
         public async Task AggiungiAsync(T entity)
         {
            await _ctx.Set<T>().AddAsync(entity);
-            //_ctx.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Added;
         }
         public void Modifica(T entity)
         {
@@ -41,8 +40,6 @@ namespace Paradigmi.Progetto.Models.Repositories
         public void Elimina(T id)
         {
             _ctx.Entry(id).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
-            /*_ctx.Set<T>()
-                .Remove(id);*/
         }
         public async Task SaveAsync()
         {

@@ -13,6 +13,7 @@ namespace Paradigmi.Progetto.Models.Context
         public DbSet<Utente>? Utenti { get; set; }
         public DbSet<Libro>? Libri { get; set; }
         public DbSet<Categoria>? Categorie { get; set; }
+        public DbSet<CategoriaLibro>? CategorieLibro { get; set; }
         public MyDbContext(DbContextOptions<MyDbContext> config) : base(config)
         {
 
@@ -36,7 +37,7 @@ namespace Paradigmi.Progetto.Models.Context
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CategoriaLibro>()
+            /*modelBuilder.Entity<CategoriaLibro>()
                 .HasKey(lc => lc.IdCategoriaLibro);
 
             modelBuilder.Entity<CategoriaLibro>()
@@ -49,7 +50,7 @@ namespace Paradigmi.Progetto.Models.Context
                 .HasOne(lc => lc.Categoria)
                 .WithMany(c => c.Libri)
                 .HasForeignKey(lc => lc.IdCategoria)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade);*/
 
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
             base.OnModelCreating(modelBuilder);
